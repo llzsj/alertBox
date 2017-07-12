@@ -1,7 +1,20 @@
 
 var ALERTBOX = {
 	alertBox:function(para){
-		var dom = para.dom? $(para.dom):$('body');
+
+		var DEFAULT={
+			dom:'body',
+			title:"",
+			content:"",
+			time:3000,
+			type:'tip',
+			width:"50%",
+		};
+		// 
+		var para = $.extend({},DEFAULT,para);
+
+
+		var dom = $(para.dom);
 		var width = para.width;
 		var title = para.title;
 		var content = para.content;
@@ -9,6 +22,19 @@ var ALERTBOX = {
 		var type = para.type;
 
 		var box = $('<div></div>');
+		var mask = $('<div></div>');
+		mask.addClass('mask');
+		mask.css({
+			position:"fixed",
+			top:0,
+			right:0,
+			bottom:0,
+			left:0,
+			backgroundColor:"#000",
+			opacity:0.3,
+			zIndex:1
+		});
+		$('body').append(mask);
 		box.css({
 			width:width,
 			padding:"20px",
@@ -17,7 +43,8 @@ var ALERTBOX = {
 			transform:"translate(-50%,-50%)",
 			top:"50%",
 			color:"#fff",
-			lineHeight:"24px"	
+			lineHeight:"24px",
+			zIndex:2	
 		});
 
 		switch(type){
@@ -36,7 +63,7 @@ var ALERTBOX = {
 			break;
 			default:box.css({
 				backgroundColor:"#1d73a3"
-			})
+			});
 
 		};
 		box.addClass('alert-box');
@@ -81,6 +108,7 @@ var ALERTBOX = {
 		},200,function(){
 			this.remove();
 		});
+		$('.mask').remove();
 	}
 }
 
